@@ -31,35 +31,20 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return taskMgr.tasksArray.count
-    }
-    
-    override func viewWillAppear(animated: Bool) {
         
-        var appDel: AppDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
-        var context: NSManagedObjectContext = appDel.managedObjectContext!
+        let appDel:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let context:NSManagedObjectContext = appDel.managedObjectContext!
         
         var request = NSFetchRequest(entityName: "Task")
         request.returnsObjectsAsFaults = false
         
         var results: NSArray = context.executeFetchRequest(request, error: nil)!
         
-        if (results.count > 0) {
-            //println("results below")
-            for res in results {
-                //println(res)
-                taskMgr.addTask(res.valueForKey("taskName") as! String, desc: res.valueForKey("taskDesc") as! String)
-            }
-            // this is the bug, needs to make sure that I don't add everything I return to this view
-            //println("----------------\n")
-            //println(results.count)
-        }
-        
-        
-        
-        
+        return results.count
+    }
+    
+    override func viewWillAppear(animated: Bool) {
         tblTasks.reloadData()
-        //println("Back to main view")
     }
 
     
@@ -74,29 +59,12 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
         
         var results: NSArray = context.executeFetchRequest(request, error: nil)!
         
-        
-        
         if (cell != nil) {
             cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell")
         }
         
-        /*
-        if (results.count > 0) {
-            
-            cell!.textLabel?.text = results[indexPath.row].valueForKey("taskName") as? String
-            println(results[indexPath.row].valueForKey("taskName"))
-            cell?.detailTextLabel!.text = results[indexPath.row].valueForKey("taskDesc") as? String
-            
-        } */
-        
-        //cell!.textLabel?.text = taskMgr.tasksArray[indexPath.row].name
-        //cell!.detailTextLabel!.text = taskMgr.tasksArray[indexPath.row].desc
-        
         cell!.textLabel?.text = results[indexPath.row].valueForKey("taskName") as? String
         cell!.detailTextLabel!.text = results[indexPath.row].valueForKey("taskDesc") as? String
-        
-        println(taskMgr.tasksArray[indexPath.row].name)
-        println(results[indexPath.row].valueForKey("taskName") as! String)
         
         return cell!
     }
@@ -111,23 +79,27 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
     */
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
         if(editingStyle == UITableViewCellEditingStyle.Delete) {
-            
             let appDel:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             let context:NSManagedObjectContext = appDel.managedObjectContext!
             
             var request = NSFetchRequest(entityName: "Task")
             request.returnsObjectsAsFaults = false
             
-            var results: NSArray = context.executeFetchRequest(request, error: nil)!
+            var results: NSArray = context.executeFetchRequest(request, error: nil)!//
+            
             
             context.deleteObject(results[indexPath.row] as! NSManagedObject)
             context.save(nil)
             
-            taskMgr.tasksArray.removeAtIndex(indexPath.row)
             tblTasks.reloadData()
         }
     }
+    
+    //override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        //return 1
+    //}
     
     /*
     // Override to support rearranging the table view.

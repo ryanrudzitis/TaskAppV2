@@ -14,7 +14,6 @@
 		E65716FB1AFC5920009CE656 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E65716F91AFC5920009CE656 /* LaunchScreen.xib */; };
 		E65717071AFC5920009CE656 /* TaskAppV2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65717061AFC5920009CE656 /* TaskAppV2Tests.swift */; };
 		E65717111AFC59B6009CE656 /* MainTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65717101AFC59B6009CE656 /* MainTaskView.swift */; };
-		E65717131AFC5ACA009CE656 /* TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65717121AFC5ACA009CE656 /* TaskManager.swift */; };
 		E65717151AFC6128009CE656 /* AddTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65717141AFC6128009CE656 /* AddTaskView.swift */; };
 /* End PBXBuildFile section */
 
@@ -40,7 +39,6 @@
 		E65717051AFC5920009CE656 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E65717061AFC5920009CE656 /* TaskAppV2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskAppV2Tests.swift; sourceTree = "<group>"; };
 		E65717101AFC59B6009CE656 /* MainTaskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTaskView.swift; sourceTree = "<group>"; };
-		E65717121AFC5ACA009CE656 /* TaskManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskManager.swift; sourceTree = "<group>"; };
 		E65717141AFC6128009CE656 /* AddTaskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTaskView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,7 +87,6 @@
 				E65716F91AFC5920009CE656 /* LaunchScreen.xib */,
 				E65716EF1AFC5920009CE656 /* TaskAppV2.xcdatamodeld */,
 				E65716EB1AFC5920009CE656 /* Supporting Files */,
-				E65717121AFC5ACA009CE656 /* TaskManager.swift */,
 				E65717101AFC59B6009CE656 /* MainTaskView.swift */,
 				E65717141AFC6128009CE656 /* AddTaskView.swift */,
 			);
@@ -224,7 +221,6 @@
 				E65717111AFC59B6009CE656 /* MainTaskView.swift in Sources */,
 				E65717151AFC6128009CE656 /* AddTaskView.swift in Sources */,
 				E65716F11AFC5920009CE656 /* TaskAppV2.xcdatamodeld in Sources */,
-				E65717131AFC5ACA009CE656 /* TaskManager.swift in Sources */,
 				E65716EE1AFC5920009CE656 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

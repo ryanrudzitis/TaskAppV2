@@ -32,7 +32,6 @@ class AddTaskView: UIViewController {
     
     @IBAction func Done(sender: UIBarButtonItem) {
         self.dismissViewControllerAnimated(true, completion: {})
-        taskMgr.addTask(txtTask.text, desc: txtDesc.text)
         self.view.endEditing(true) // hide keyboard
         
         var appDel :AppDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
@@ -49,8 +48,6 @@ class AddTaskView: UIViewController {
         
         txtTask.text = ""
         txtDesc.text = ""
-        
-
     }
 
     /*

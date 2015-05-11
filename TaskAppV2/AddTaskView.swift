@@ -13,8 +13,6 @@ class AddTaskView: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        println("ok")
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,8 +20,8 @@ class AddTaskView: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBOutlet var txtTask :UITextField!
-    @IBOutlet var txtDesc :UITextField!
+    @IBOutlet var txtTask :UITextField?
+    @IBOutlet var txtDesc :UITextField?
     
     @IBAction func done(sender: UIBarButtonItem) {
         var appDel :AppDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
@@ -31,8 +29,8 @@ class AddTaskView: UIViewController {
         
         if (textFieldShouldEndEditing(txtTask, textFieldB: txtDesc) == true) {
             var newTask = NSEntityDescription.insertNewObjectForEntityForName("Task", inManagedObjectContext: context) as! NSManagedObject
-            newTask.setValue(txtTask.text, forKey: "taskName")
-            newTask.setValue(txtDesc.text, forKey: "taskDesc")
+            newTask.setValue(txtTask!.text, forKey: "taskName")
+            newTask.setValue(txtDesc!.text, forKey: "taskDesc")
             context.save(nil)
             
             self.dismissViewControllerAnimated(true, completion: {})
@@ -40,7 +38,9 @@ class AddTaskView: UIViewController {
             
             
         } else if (textFieldShouldEndEditing(txtTask, textFieldB: txtDesc) == false){
-            println("bad")
+            var alert = UIAlertController(title: "Error", message: "The textboxes cannot be blank", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
         }
     }
     

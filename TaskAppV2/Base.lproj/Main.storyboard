@@ -82,15 +82,20 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Add Task" id="YeW-j2-W41">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Vgv-be-gmM">
+                            <connections>
+                                <action selector="cancel:" destination="RDl-ct-yZp" id="fqJ-iH-QDD"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="4EV-a3-PuB">
                             <connections>
-                                <action selector="Done:" destination="RDl-ct-yZp" id="CTV-VF-foh"/>
+                                <action selector="done:" destination="RDl-ct-yZp" id="XRm-HD-6dC"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="txtDesc" destination="FJf-bf-axf" id="F6g-29-DjD"/>
-                        <outlet property="txtTask" destination="0CN-dO-I4s" id="nQL-pZ-0Yy"/>
+                        <outlet property="txtTask" destination="0CN-dO-I4s" id="Ubn-sh-uDe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8wU-Lq-epa" userLabel="First Responder" sceneMemberID="firstResponder"/>

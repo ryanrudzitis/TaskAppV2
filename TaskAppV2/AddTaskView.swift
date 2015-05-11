@@ -14,7 +14,7 @@ class AddTaskView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        println("ok")
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,32 +22,39 @@ class AddTaskView: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
-    
-    
-    
     @IBOutlet var txtTask :UITextField!
     @IBOutlet var txtDesc :UITextField!
     
-    
-    @IBAction func Done(sender: UIBarButtonItem) {
-        self.dismissViewControllerAnimated(true, completion: {})
-        self.view.endEditing(true) // hide keyboard
-        
+    @IBAction func done(sender: UIBarButtonItem) {
         var appDel :AppDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
         var context :NSManagedObjectContext = appDel.managedObjectContext!
         
-        var newTask = NSEntityDescription.insertNewObjectForEntityForName("Task", inManagedObjectContext: context) as! NSManagedObject
-        
-        newTask.setValue(txtTask.text, forKey: "taskName")
-        newTask.setValue(txtDesc.text, forKey: "taskDesc")
-        context.save(nil)
-        
-        println(newTask)
-        println("object saved")
-        
-        txtTask.text = ""
-        txtDesc.text = ""
+        if (textFieldShouldEndEditing(txtTask, textFieldB: txtDesc) == true) {
+            var newTask = NSEntityDescription.insertNewObjectForEntityForName("Task", inManagedObjectContext: context) as! NSManagedObject
+            newTask.setValue(txtTask.text, forKey: "taskName")
+            newTask.setValue(txtDesc.text, forKey: "taskDesc")
+            context.save(nil)
+            
+            self.dismissViewControllerAnimated(true, completion: {})
+            self.view.endEditing(true) // hide keyboard
+            
+            
+        } else if (textFieldShouldEndEditing(txtTask, textFieldB: txtDesc) == false){
+            println("bad")
+        }
+    }
+    
+    @IBAction func cancel(sender: UIBarButtonItem) {
+        self.dismissViewControllerAnimated(true, completion: {})
+        self.view.endEditing(true)
+    }
+    
+    func textFieldShouldEndEditing(textFieldA: UITextField!, textFieldB: UITextField!) -> Bool {
+        if (textFieldA.text == "" || textFieldB.text == "") {
+            return false
+        } else {
+            return true
+        }
     }
 
     /*

@@ -44,6 +44,45 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
     override func viewWillAppear(animated: Bool) {
         tblTasks.reloadData()
     }
+    
+    @IBAction func deleteAll(sender: UIBarButtonItem) {
+        var appDel: AppDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
+        var context: NSManagedObjectContext = appDel.managedObjectContext!
+        
+        let optionMenu = UIAlertController(title: nil, message: "Are you sure you want to delete all?", preferredStyle: .ActionSheet)
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: {(alert: UIAlertAction!) -> Void in
+            var request = NSFetchRequest(entityName: "Task")
+            request.returnsObjectsAsFaults = false
+            
+            var results: NSArray = context.executeFetchRequest(request, error: nil)!
+            
+            var item: NSManagedObject!
+            
+            for item: AnyObject in results {
+                context.deleteObject(item as! NSManagedObject)
+            }
+            
+            context.save(nil)
+            self.tblTasks.reloadData()
+            
+            })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: {(alert: UIAlertAction!) -> Void in
+            self.dismissViewControllerAnimated(true, completion: nil)
+            })
+        
+        optionMenu.addAction(deleteAction)
+        optionMenu.addAction(cancelAction)
+        
+        self.presentViewController(optionMenu, animated: true, completion: nil)
+        
+        
+        
+        
+        
+        
+    }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -78,11 +117,13 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
-        if(editingStyle == UITableViewCellEditingStyle.Delete) {
+        if (editingStyle == UITableViewCellEditingStyle.Delete) {
             let appDel:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             let context:NSManagedObjectContext = appDel.managedObjectContext!
             
-            var request = NSFetchRequest(entityName: "Task")
+            var request: NSFetchRequest
+            
+            request = NSFetchRequest(entityName: "Task")
             request.returnsObjectsAsFaults = false
             
             var results: NSArray = context.executeFetchRequest(request, error: nil)!//

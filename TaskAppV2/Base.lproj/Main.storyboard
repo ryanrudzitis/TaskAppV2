@@ -28,6 +28,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Tasks" id="X5s-2o-Prc">
+                        <barButtonItem key="leftBarButtonItem" title="Delete All" id="M6Y-tS-lCC">
+                            <connections>
+                                <action selector="deleteAll:" destination="9el-II-gmT" id="zkB-f6-2tI"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Ftx-R9-mNW">
                             <connections>
                                 <segue destination="lBI-fJ-Cau" kind="modal" id="SZr-JP-76a"/>

@@ -50,6 +50,7 @@ class AddTaskView: UIViewController {
     }
     
     func textFieldShouldEndEditing(textFieldA: UITextField!, textFieldB: UITextField!) -> Bool {
+
         if (textFieldA.text == "" || textFieldB.text == "") {
             return false
         } else {

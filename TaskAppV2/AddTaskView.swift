@@ -9,7 +9,10 @@
 import UIKit
 import CoreData
 
-class AddTaskView: UIViewController {
+class AddTaskView: UIViewController, UITextFieldDelegate {
+    
+    @IBOutlet var txtTask :UITextField?
+    @IBOutlet var txtDesc :UITextField?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,15 +23,16 @@ class AddTaskView: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBOutlet var txtTask :UITextField?
-    @IBOutlet var txtDesc :UITextField?
+   
     
     @IBAction func done(sender: UIBarButtonItem) {
         var appDel :AppDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
         var context :NSManagedObjectContext = appDel.managedObjectContext!
+        var alert: UIAlertController
+        var newTask: NSManagedObject
         
         if (textFieldShouldEndEditing(txtTask, textFieldB: txtDesc) == true) {
-            var newTask = NSEntityDescription.insertNewObjectForEntityForName("Task", inManagedObjectContext: context) as! NSManagedObject
+            newTask = NSEntityDescription.insertNewObjectForEntityForName("Task", inManagedObjectContext: context) as! NSManagedObject
             newTask.setValue(txtTask!.text, forKey: "taskName")
             newTask.setValue(txtDesc!.text, forKey: "taskDesc")
             context.save(nil)
@@ -36,9 +40,8 @@ class AddTaskView: UIViewController {
             self.dismissViewControllerAnimated(true, completion: {})
             self.view.endEditing(true) // hide keyboard
             
-            
-        } else if (textFieldShouldEndEditing(txtTask, textFieldB: txtDesc) == false){
-            var alert = UIAlertController(title: "Error", message: "The textboxes cannot be blank", preferredStyle: UIAlertControllerStyle.Alert)
+        } else if (textFieldShouldEndEditing(txtTask, textFieldB: txtDesc) == false) {
+            alert = UIAlertController(title: "Error", message: "The textboxes cannot be blank", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         }
@@ -51,11 +54,29 @@ class AddTaskView: UIViewController {
     
     func textFieldShouldEndEditing(textFieldA: UITextField!, textFieldB: UITextField!) -> Bool {
 
+        println("should end")
         if (textFieldA.text == "" || textFieldB.text == "") {
             return false
         } else {
             return true
         }
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        println("it did end editing")
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        var nextTag = textField.tag + 1
+        
+        var nextResponder = textField.superview?.viewWithTag(nextTag)
+        
+        if ((nextResponder) != nil) {
+            nextResponder!.becomeFirstResponder()
+        } else {
+            textField.resignFirstResponder()
+        }
+        return true
     }
 
     /*

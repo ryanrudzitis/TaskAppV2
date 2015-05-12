@@ -15,6 +15,7 @@
 		E65717071AFC5920009CE656 /* TaskAppV2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65717061AFC5920009CE656 /* TaskAppV2Tests.swift */; };
 		E65717111AFC59B6009CE656 /* MainTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65717101AFC59B6009CE656 /* MainTaskView.swift */; };
 		E65717151AFC6128009CE656 /* AddTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65717141AFC6128009CE656 /* AddTaskView.swift */; };
+		E657177A1B021799009CE656 /* getCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65717791B021799009CE656 /* getCoreData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		E65717061AFC5920009CE656 /* TaskAppV2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskAppV2Tests.swift; sourceTree = "<group>"; };
 		E65717101AFC59B6009CE656 /* MainTaskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTaskView.swift; sourceTree = "<group>"; };
 		E65717141AFC6128009CE656 /* AddTaskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTaskView.swift; sourceTree = "<group>"; };
+		E65717791B021799009CE656 /* getCoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = getCoreData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 				E65716EB1AFC5920009CE656 /* Supporting Files */,
 				E65717101AFC59B6009CE656 /* MainTaskView.swift */,
 				E65717141AFC6128009CE656 /* AddTaskView.swift */,
+				E65717791B021799009CE656 /* getCoreData.swift */,
 			);
 			path = TaskAppV2;
 			sourceTree = "<group>";
@@ -222,6 +225,7 @@
 				E65717151AFC6128009CE656 /* AddTaskView.swift in Sources */,
 				E65716F11AFC5920009CE656 /* TaskAppV2.xcdatamodeld in Sources */,
 				E65716EE1AFC5920009CE656 /* AppDelegate.swift in Sources */,
+				E657177A1B021799009CE656 /* getCoreData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

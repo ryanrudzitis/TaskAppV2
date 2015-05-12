@@ -11,7 +11,7 @@ import CoreData
 
 class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataSource {
     
-    @IBOutlet var tblTasks :UITableView!
+    @IBOutlet var tblTasks: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,13 +30,7 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        let appDel:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let context:NSManagedObjectContext = appDel.managedObjectContext!
-        
-        var request = NSFetchRequest(entityName: "Task")
-        request.returnsObjectsAsFaults = false
-        
-        var results: NSArray = context.executeFetchRequest(request, error: nil)!
+        var results = getCoreDataArray("Task")
         
         return results.count
     }
@@ -53,11 +47,7 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
         
         let deleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: {(alert: UIAlertAction!) -> Void in
             var request = NSFetchRequest(entityName: "Task")
-            request.returnsObjectsAsFaults = false
-            
             var results: NSArray = context.executeFetchRequest(request, error: nil)!
-            
-            var item: NSManagedObject!
             
             for item: AnyObject in results {
                 context.deleteObject(item as! NSManagedObject)
@@ -65,23 +55,17 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
             
             context.save(nil)
             self.tblTasks.reloadData()
-            
             })
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: {(alert: UIAlertAction!) -> Void in
             self.dismissViewControllerAnimated(true, completion: nil)
             })
         
+        
         optionMenu.addAction(deleteAction)
         optionMenu.addAction(cancelAction)
         
         self.presentViewController(optionMenu, animated: true, completion: nil)
-        
-        
-        
-        
-        
-        
     }
 
     
@@ -89,12 +73,7 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
         
         var cell = tableView.dequeueReusableCellWithIdentifier("cell") as? UITableViewCell //reuseidentifier must match with one in storyboard
         
-        var appDel: AppDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
-        var context: NSManagedObjectContext = appDel.managedObjectContext!
-        var request = NSFetchRequest(entityName: "Task")
-        request.returnsObjectsAsFaults = false
-        
-        var results: NSArray = context.executeFetchRequest(request, error: nil)!
+        var results = getCoreDataArray("Task")
         
         if (cell != nil) {
             cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell")
@@ -103,31 +82,26 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
         cell!.textLabel?.text = results[indexPath.row].valueForKey("taskName") as? String
         cell!.detailTextLabel!.text = results[indexPath.row].valueForKey("taskDesc") as? String
         
+        
         return cell!
     }
     
 
-    /*
+    
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return NO if you do not want the specified item to be editable.
         return true
     }
-    */
+
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
         if (editingStyle == UITableViewCellEditingStyle.Delete) {
             let appDel:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             let context:NSManagedObjectContext = appDel.managedObjectContext!
-            
-            var request: NSFetchRequest
-            
-            request = NSFetchRequest(entityName: "Task")
-            request.returnsObjectsAsFaults = false
-            
-            var results: NSArray = context.executeFetchRequest(request, error: nil)!//
-            
+            var request = NSFetchRequest(entityName: "Task")
+            var results: NSArray = context.executeFetchRequest(request, error: nil)!
             
             context.deleteObject(results[indexPath.row] as! NSManagedObject)
             context.save(nil)
@@ -143,17 +117,17 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
     /*
     // Override to support rearranging the table view.
     override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
+        
     }
     */
 
-    /*
+    
     // Override to support conditional rearranging of the table view.
     override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return NO if you do not want the item to be re-orderable.
-        return true
+        return false
     }
-    */
+
 
     /*
     // MARK: - Navigation

@@ -15,12 +15,13 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
+        tblTasks.backgroundColor = UIColor(red: 51/255, green: 153/255, blue: 255/255, alpha: 1.0)
+        tblTasks.tableFooterView = UIView(frame: CGRectZero)
+        //addBlurEffect()
+        
         // self.clearsSelectionOnViewWillAppear = false
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        self.navigationItem.leftBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,13 +38,23 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
     
     override func viewWillAppear(animated: Bool) {
         tblTasks.reloadData()
+        self.navigationController?.setToolbarHidden(true, animated: animated)
+    }
+    
+    func addBlurEffect() {
+        var bounds = self.navigationController?.navigationBar.bounds as CGRect!
+        var visualEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .Light)) as UIVisualEffectView
+        visualEffectView.frame = bounds
+        visualEffectView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        self.navigationController?.navigationBar.addSubview(visualEffectView)
+        self.navigationController?.navigationBar.translucent = true
     }
     
     @IBAction func deleteAll(sender: UIBarButtonItem) {
         var appDel: AppDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
         var context: NSManagedObjectContext = appDel.managedObjectContext!
         
-        let optionMenu = UIAlertController(title: nil, message: "Are you sure you want to delete all?", preferredStyle: .ActionSheet)
+        let optionMenu = UIAlertController(title: nil, message: "Are you sure you want to delete all tasks?", preferredStyle: .ActionSheet)
         
         let deleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: {(alert: UIAlertAction!) -> Void in
             var request = NSFetchRequest(entityName: "Task")
@@ -81,7 +92,9 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
         
         cell!.textLabel?.text = results[indexPath.row].valueForKey("taskName") as? String
         cell!.detailTextLabel!.text = results[indexPath.row].valueForKey("taskDesc") as? String
-        
+        cell?.backgroundColor = UIColor.clearColor()
+        cell?.textLabel?.textColor = UIColor.whiteColor()
+        cell?.detailTextLabel?.textColor = UIColor.whiteColor()
         
         return cell!
     }
@@ -110,6 +123,16 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
         }
     }
     
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        
+        if (editing) {
+            self.navigationController?.setToolbarHidden(false, animated: animated)
+        } else {
+            self.navigationController?.setToolbarHidden(true, animated: animated)
+        }
+    }
+    
     //override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         //return 1
     //}
@@ -120,7 +143,7 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
         
     }
     */
-
+    // IF IT IS IN EDIT MODE THEN GO BACK TO NORMAL WHEN PRESSING +
     
     // Override to support conditional rearranging of the table view.
     override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {

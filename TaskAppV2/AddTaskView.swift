@@ -13,10 +13,24 @@ class AddTaskView: UIViewController, UITextFieldDelegate {
     
     @IBOutlet var txtTask :UITextField?
     @IBOutlet var txtDesc :UITextField?
+    
+    var cancelButtonPressed = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.backgroundColor = UIColor(red: 51/255, green: 153/255, blue: 255/255, alpha: 1.0)
+        var nextResponder = txtTask?.viewWithTag(1)
+        
+        if ((nextResponder) != nil) {
+            nextResponder?.becomeFirstResponder()
+        }
+        
+        cancelButtonPressed = false
+        
     }
+    
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -25,13 +39,13 @@ class AddTaskView: UIViewController, UITextFieldDelegate {
     
    
     
-    @IBAction func done(sender: UIBarButtonItem) {
+    @IBAction func done(AnyObject) {
         var appDel :AppDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
         var context :NSManagedObjectContext = appDel.managedObjectContext!
         var alert: UIAlertController
         var newTask: NSManagedObject
         
-        if (textFieldShouldEndEditing(txtTask!) == true && textFieldShouldEndEditing(txtDesc!) == true) {
+        if (txtTask!.text != "" && txtDesc!.text != "") {
             newTask = NSEntityDescription.insertNewObjectForEntityForName("Task", inManagedObjectContext: context) as! NSManagedObject
             newTask.setValue(txtTask!.text, forKey: "taskName")
             newTask.setValue(txtDesc!.text, forKey: "taskDesc")
@@ -40,25 +54,27 @@ class AddTaskView: UIViewController, UITextFieldDelegate {
             self.dismissViewControllerAnimated(true, completion: {})
             self.view.endEditing(true) // hide keyboard
             
-        } else if (textFieldShouldEndEditing(txtTask!) == false && textFieldShouldEndEditing(txtDesc!) == false) {
-            alert = UIAlertController(title: "Error", message: "The textboxes cannot be blank", preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+        } else {
+            textFieldShouldEndEditing(txtTask!)
+            textFieldShouldEndEditing(txtDesc!)
         }
     }
-    // CANT SWITCH TEXTFIELDS ANBYMORE
+
     @IBAction func cancel(sender: UIBarButtonItem) {
+        cancelButtonPressed = true
         self.dismissViewControllerAnimated(true, completion: {})
         self.view.endEditing(true)
     }
     
     func textFieldShouldEndEditing(textField: UITextField) -> Bool {
-
-        if (textField.text == "") {
-            println("Returning false from textfieldshouldendediting")
+        self.view.endEditing(true)
+        
+        if (textField.text == "" && cancelButtonPressed == false) {
+            var alert: UIAlertController = UIAlertController(title: "Error", message: "Contents of textbox cannot be blank", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
             return false
         } else {
-            println("Returning true from textfieldshouldendediting")
             return true
         }
     }
@@ -73,13 +89,14 @@ class AddTaskView: UIViewController, UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         var nextTag = textField.tag + 1
-        
         var nextResponder = textField.superview?.viewWithTag(nextTag)
         
         if ((nextResponder) != nil) {
+            textField.resignFirstResponder()
             nextResponder!.becomeFirstResponder()
         } else {
             textField.resignFirstResponder()
+            done(self)
         }
         return true
     }

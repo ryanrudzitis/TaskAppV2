@@ -31,7 +31,7 @@ class AddTaskView: UIViewController, UITextFieldDelegate {
         var alert: UIAlertController
         var newTask: NSManagedObject
         
-        if (textFieldShouldEndEditing(txtTask, textFieldB: txtDesc) == true) {
+        if (textFieldShouldEndEditing(txtTask!) == true && textFieldShouldEndEditing(txtDesc!) == true) {
             newTask = NSEntityDescription.insertNewObjectForEntityForName("Task", inManagedObjectContext: context) as! NSManagedObject
             newTask.setValue(txtTask!.text, forKey: "taskName")
             newTask.setValue(txtDesc!.text, forKey: "taskDesc")
@@ -40,30 +40,35 @@ class AddTaskView: UIViewController, UITextFieldDelegate {
             self.dismissViewControllerAnimated(true, completion: {})
             self.view.endEditing(true) // hide keyboard
             
-        } else if (textFieldShouldEndEditing(txtTask, textFieldB: txtDesc) == false) {
+        } else if (textFieldShouldEndEditing(txtTask!) == false && textFieldShouldEndEditing(txtDesc!) == false) {
             alert = UIAlertController(title: "Error", message: "The textboxes cannot be blank", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
-    
+    // CANT SWITCH TEXTFIELDS ANBYMORE
     @IBAction func cancel(sender: UIBarButtonItem) {
         self.dismissViewControllerAnimated(true, completion: {})
         self.view.endEditing(true)
     }
     
-    func textFieldShouldEndEditing(textFieldA: UITextField!, textFieldB: UITextField!) -> Bool {
+    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
 
-        println("should end")
-        if (textFieldA.text == "" || textFieldB.text == "") {
+        if (textField.text == "") {
+            println("Returning false from textfieldshouldendediting")
             return false
         } else {
+            println("Returning true from textfieldshouldendediting")
             return true
         }
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
-        println("it did end editing")
+        if (textFieldShouldEndEditing(textField) == false) {
+            println("returned false")
+        } else {
+            println("returned true")
+        }
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {

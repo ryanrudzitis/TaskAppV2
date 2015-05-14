@@ -12,16 +12,40 @@ import CoreData
 class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet var tblTasks: UITableView!
+    let longPress = UILongPressGestureRecognizer()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tblTasks.backgroundColor = UIColor(red: 51/255, green: 153/255, blue: 255/255, alpha: 1.0)
         tblTasks.tableFooterView = UIView(frame: CGRectZero)
+        
+        
+        longPress.addTarget(self, action: "longPressedView:")
+        tblTasks.addGestureRecognizer(longPress)
+        tblTasks.userInteractionEnabled = true
+        
+        
+        
         //addBlurEffect()
         
-        // self.clearsSelectionOnViewWillAppear = false
+        //self.clearsSelectionOnViewWillAppear = false
 
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
+    }
+    
+    func longPressedView(gestureRecognizer: UIGestureRecognizer){
+        if (gestureRecognizer.state == UIGestureRecognizerState.Ended) {
+            var tapLocation: CGPoint = gestureRecognizer.locationInView(self.tableView)
+            
+            var tappedIndexPath: NSIndexPath = self.tableView.indexPathForRowAtPoint(tapLocation)!
+            var tappedCell: UITableViewCell = self.tableView.cellForRowAtIndexPath(tappedIndexPath)!
+            
+            println("the cell name is \(tappedCell.textLabel!.text!)")
+        }
+        
+        let tapAlert = UIAlertController(title: "Long Pressed", message: "You just long pressed the long press view", preferredStyle: UIAlertControllerStyle.Alert)
+        tapAlert.addAction(UIAlertAction(title: "OK", style: .Destructive, handler: nil))
+        self.presentViewController(tapAlert, animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -82,7 +106,7 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell = tableView.dequeueReusableCellWithIdentifier("cell") as? UITableViewCell //reuseidentifier must match with one in storyboard
+        var cell = tableView.dequeueReusableCellWithIdentifier("cell") as? UITableViewCell
         
         var results = getCoreDataArray("Task")
         

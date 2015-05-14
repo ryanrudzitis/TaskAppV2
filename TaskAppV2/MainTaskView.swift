@@ -16,17 +16,15 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        /*Set color*/
         tblTasks.backgroundColor = UIColor(red: 51/255, green: 153/255, blue: 255/255, alpha: 1.0)
         tblTasks.tableFooterView = UIView(frame: CGRectZero)
         
-        
+        /*Add long press gesture*/
         longPress.addTarget(self, action: "longPressedView:")
         tblTasks.addGestureRecognizer(longPress)
         tblTasks.userInteractionEnabled = true
-        
-        
-        
-        //addBlurEffect()
         
         //self.clearsSelectionOnViewWillAppear = false
 
@@ -34,6 +32,8 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
     }
     
     func longPressedView(gestureRecognizer: UIGestureRecognizer){
+        
+        /*Get cell info from where user tapped*/
         if (gestureRecognizer.state == UIGestureRecognizerState.Ended) {
             var tapLocation: CGPoint = gestureRecognizer.locationInView(self.tableView)
             
@@ -43,6 +43,7 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
             println("the cell name is \(tappedCell.textLabel!.text!)")
         }
         
+        /*Long press alert*/
         let tapAlert = UIAlertController(title: "Long Pressed", message: "You just long pressed the long press view", preferredStyle: UIAlertControllerStyle.Alert)
         tapAlert.addAction(UIAlertAction(title: "OK", style: .Destructive, handler: nil))
         self.presentViewController(tapAlert, animated: true, completion: nil)
@@ -62,6 +63,7 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
     
     override func viewWillAppear(animated: Bool) {
         tblTasks.reloadData()
+        /*Hide tool bar upon loading*/
         self.navigationController?.setToolbarHidden(true, animated: animated)
     }
     
@@ -78,8 +80,10 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
         var appDel: AppDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
         var context: NSManagedObjectContext = appDel.managedObjectContext!
         
+        /*Set the option view*/
         let optionMenu = UIAlertController(title: nil, message: "Are you sure you want to delete all tasks?", preferredStyle: .ActionSheet)
         
+        /*Set the actions for pressing delete*/
         let deleteAction = UIAlertAction(title: "Delete", style: .Destructive, handler: {(alert: UIAlertAction!) -> Void in
             var request = NSFetchRequest(entityName: "Task")
             var results: NSArray = context.executeFetchRequest(request, error: nil)!
@@ -92,11 +96,12 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
             self.tblTasks.reloadData()
             })
         
+        /*Set the cancel action*/
         let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: {(alert: UIAlertAction!) -> Void in
             self.dismissViewControllerAnimated(true, completion: nil)
             })
         
-        
+        /*Finally show the menu*/
         optionMenu.addAction(deleteAction)
         optionMenu.addAction(cancelAction)
         
@@ -105,17 +110,17 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         var cell = tableView.dequeueReusableCellWithIdentifier("cell") as? UITableViewCell
-        
         var results = getCoreDataArray("Task")
         
         if (cell != nil) {
             cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell")
         }
         
+        /*Set cell color and text details*/
         cell!.textLabel?.text = results[indexPath.row].valueForKey("taskName") as? String
         cell!.detailTextLabel!.text = results[indexPath.row].valueForKey("taskDesc") as? String
+        
         cell?.backgroundColor = UIColor.clearColor()
         cell?.textLabel?.textColor = UIColor.whiteColor()
         cell?.detailTextLabel?.textColor = UIColor.whiteColor()
@@ -134,6 +139,7 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
+        /*What happens if user presses delete on cell*/
         if (editingStyle == UITableViewCellEditingStyle.Delete) {
             let appDel:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             let context:NSManagedObjectContext = appDel.managedObjectContext!
@@ -150,6 +156,7 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
     override func setEditing(editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         
+        /*Hide/show toolbar based on edit button status*/
         if (editing) {
             self.navigationController?.setToolbarHidden(false, animated: animated)
         } else {
@@ -157,18 +164,7 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
         }
     }
     
-    //override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        //return 1
-    //}
-    
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-        
-    }
-    */
     // IF IT IS IN EDIT MODE THEN GO BACK TO NORMAL WHEN PRESSING +
-    
     // Override to support conditional rearranging of the table view.
     override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return NO if you do not want the item to be re-orderable.

@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+class MainTaskView: UITableViewController, UITextFieldDelegate {
     
     @IBOutlet var tblTasks: UITableView!
 
@@ -22,9 +22,6 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
     override func viewDidLoad() {
         super.viewDidLoad()
         let longPress = UILongPressGestureRecognizer()
-        /*Set color*/
-        //tblTasks.backgroundColor = UIColor(red: 51/255, green: 153/255, blue: 255/255, alpha: 1.0)
-        //tblTasks.tableFooterView = UIView(frame: CGRectZero)
         
         /*Add long press gesture*/
         longPress.addTarget(self, action: "longPressedView:")
@@ -34,6 +31,7 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
         //self.clearsSelectionOnViewWillAppear = false
 
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
+        self.tableView.registerNib(UINib(nibName: "MyCell", bundle: nil), forCellReuseIdentifier: "cell")
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -66,6 +64,7 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         let results = getCoreDataArray("Task")
+        println(results.count)
         return results.count
     }
     
@@ -120,21 +119,18 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("cell") as? UITableViewCell
+        //var cell = tableView.dequeueReusableCellWithIdentifier("cell") as? MyCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell",
+            forIndexPath:indexPath) as? MyCell
+        
+        if cell == nil {
+            println("it is nill")
+        }
+
         var results = getCoreDataArray("Task")
         
-        if (cell != nil) {
-            cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell")
-        }
-        
-        /*Set cell color and text details*/
-        cell!.textLabel?.text = results[indexPath.row].valueForKey("taskName") as? String
-        //cell!.detailTextLabel!.text = results[indexPath.row].valueForKey("taskDesc") as? String
-        
-        //cell?.backgroundColor = UIColor.clearColor()
-        //cell?.textLabel?.textColor = UIColor.whiteColor()
-        //cell?.detailTextLabel?.textColor = UIColor.whiteColor()
-        //cell.textField.text = "holla"
+        cell!.textField.text = results[indexPath.row].valueForKey("taskName") as? String
+        cell!.textField.delegate = self
         return cell!
     }
     
@@ -175,21 +171,45 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
         }
     }
     
-    // IF IT IS IN EDIT MODE THEN GO BACK TO NORMAL WHEN PRESSING + IN A NICE WAY
     // Override to support conditional rearranging of the table view.
     override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return NO if you do not want the item to be re-orderable.
         return false
     }
     
-    func delay(delay:Double, closure:()->()) {
-        dispatch_after(
-            dispatch_time(
-                DISPATCH_TIME_NOW,
-                Int64(delay * Double(NSEC_PER_SEC))
-            ),
-            dispatch_get_main_queue(), closure)
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.endEditing(true)
+        self.navigationController?.editing = false
+        return false
     }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        // some cell's text field has finished editing; which cell?
+        var v : UIView = textField
+        do { v = v.superview! } while !(v is UITableViewCell)
+
+        let cell = v as! MyCell
+        // update data model to match
+        
+        var appDel: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        var context: NSManagedObjectContext = appDel.managedObjectContext!
+        
+        var request = NSFetchRequest(entityName: "Task")
+        request.predicate = NSPredicate(format: "taskName = %@", "ok")
+        
+        if let fetchResults = appDel.managedObjectContext!.executeFetchRequest(request, error: nil) as? [NSManagedObject] {
+            if fetchResults.count != 0{
+                var managedObject = fetchResults[0]
+                managedObject.setValue(textField.text, forKey: "taskName")
+                
+                context.save(nil)
+                tblTasks.reloadData()
+            }
+        }
+        
+        
+    }
+
 
 
     /*

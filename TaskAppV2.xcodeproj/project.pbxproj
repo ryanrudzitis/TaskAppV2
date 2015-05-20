@@ -16,6 +16,8 @@
 		E65717111AFC59B6009CE656 /* MainTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65717101AFC59B6009CE656 /* MainTaskView.swift */; };
 		E65717151AFC6128009CE656 /* AddTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65717141AFC6128009CE656 /* AddTaskView.swift */; };
 		E657177A1B021799009CE656 /* getCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E65717791B021799009CE656 /* getCoreData.swift */; };
+		E681FC071B0CBDCC00CEEF8F /* MyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E681FC051B0CBDCC00CEEF8F /* MyCell.swift */; };
+		E681FC081B0CBDCC00CEEF8F /* MyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E681FC061B0CBDCC00CEEF8F /* MyCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +44,8 @@
 		E65717101AFC59B6009CE656 /* MainTaskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTaskView.swift; sourceTree = "<group>"; };
 		E65717141AFC6128009CE656 /* AddTaskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTaskView.swift; sourceTree = "<group>"; };
 		E65717791B021799009CE656 /* getCoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = getCoreData.swift; sourceTree = "<group>"; };
+		E681FC051B0CBDCC00CEEF8F /* MyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCell.swift; sourceTree = "<group>"; };
+		E681FC061B0CBDCC00CEEF8F /* MyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +94,8 @@
 				E65716EF1AFC5920009CE656 /* TaskAppV2.xcdatamodeld */,
 				E65716EB1AFC5920009CE656 /* Supporting Files */,
 				E65717101AFC59B6009CE656 /* MainTaskView.swift */,
+				E681FC051B0CBDCC00CEEF8F /* MyCell.swift */,
+				E681FC061B0CBDCC00CEEF8F /* MyCell.xib */,
 				E65717141AFC6128009CE656 /* AddTaskView.swift */,
 				E65717791B021799009CE656 /* getCoreData.swift */,
 			);
@@ -202,6 +208,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E65716F61AFC5920009CE656 /* Main.storyboard in Resources */,
+				E681FC081B0CBDCC00CEEF8F /* MyCell.xib in Resources */,
 				E65716FB1AFC5920009CE656 /* LaunchScreen.xib in Resources */,
 				E65716F81AFC5920009CE656 /* Images.xcassets in Resources */,
 			);
@@ -224,6 +231,7 @@
 				E65717111AFC59B6009CE656 /* MainTaskView.swift in Sources */,
 				E65717151AFC6128009CE656 /* AddTaskView.swift in Sources */,
 				E65716F11AFC5920009CE656 /* TaskAppV2.xcdatamodeld in Sources */,
+				E681FC071B0CBDCC00CEEF8F /* MyCell.swift in Sources */,
 				E65716EE1AFC5920009CE656 /* AppDelegate.swift in Sources */,
 				E657177A1B021799009CE656 /* getCoreData.swift in Sources */,
 			);

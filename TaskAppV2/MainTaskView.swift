@@ -119,22 +119,22 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("cell") as? UITableViewCell
+        var cell = tableView.dequeueReusableCellWithIdentifier("cell") as! MyCell
         var results = getCoreDataArray("Task")
         
-        if (cell != nil) {
-            cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell")
-        }
+        //if (cell != nil) {
+            //cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell") as? MyCell
+        //}
         
         /*Set cell color and text details*/
-        cell!.textLabel?.text = results[indexPath.row].valueForKey("taskName") as? String
-        cell!.detailTextLabel!.text = results[indexPath.row].valueForKey("taskDesc") as? String
+        //cell!.textLabel?.text = results[indexPath.row].valueForKey("taskName") as? String
+        //cell!.detailTextLabel!.text = results[indexPath.row].valueForKey("taskDesc") as? String
         
         //cell?.backgroundColor = UIColor.clearColor()
         //cell?.textLabel?.textColor = UIColor.whiteColor()
         //cell?.detailTextLabel?.textColor = UIColor.whiteColor()
-        
-        return cell!
+        cell.textField.text = "holla"
+        return cell
     }
     
 

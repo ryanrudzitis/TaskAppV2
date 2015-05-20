@@ -102,6 +102,7 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
             
             context.save(nil)
             self.tblTasks.reloadData()
+            self.navigationController?.editing = false
             })
         
         /*Set the cancel action*/
@@ -119,22 +120,22 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("cell") as! MyCell
+        var cell = tableView.dequeueReusableCellWithIdentifier("cell") as? UITableViewCell
         var results = getCoreDataArray("Task")
         
-        //if (cell != nil) {
-            //cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell") as? MyCell
-        //}
+        if (cell != nil) {
+            cell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "cell")
+        }
         
         /*Set cell color and text details*/
-        //cell!.textLabel?.text = results[indexPath.row].valueForKey("taskName") as? String
+        cell!.textLabel?.text = results[indexPath.row].valueForKey("taskName") as? String
         //cell!.detailTextLabel!.text = results[indexPath.row].valueForKey("taskDesc") as? String
         
         //cell?.backgroundColor = UIColor.clearColor()
         //cell?.textLabel?.textColor = UIColor.whiteColor()
         //cell?.detailTextLabel?.textColor = UIColor.whiteColor()
-        cell.textField.text = "holla"
-        return cell
+        //cell.textField.text = "holla"
+        return cell!
     }
     
 

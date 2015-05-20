@@ -83,15 +83,6 @@
                                     <outlet property="delegate" destination="RDl-ct-yZp" id="kwr-si-mef"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Description" minimumFontSize="17" clearButtonMode="whileEditing" id="FJf-bf-axf">
-                                <rect key="frame" x="16" y="129" width="288" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
-                                <connections>
-                                    <outlet property="delegate" destination="RDl-ct-yZp" id="tJM-J0-tDG"/>
-                                </connections>
-                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -108,7 +99,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="txtDesc" destination="FJf-bf-axf" id="F6g-29-DjD"/>
                         <outlet property="txtTask" destination="0CN-dO-I4s" id="Ubn-sh-uDe"/>
                     </connections>
                 </viewController>

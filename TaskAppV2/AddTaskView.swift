@@ -12,7 +12,6 @@ import CoreData
 class AddTaskView: UIViewController, UITextFieldDelegate {
     
     @IBOutlet var txtTask :UITextField?
-    @IBOutlet var txtDesc :UITextField?
     
     var cancelButtonPressed = false
 
@@ -45,10 +44,10 @@ class AddTaskView: UIViewController, UITextFieldDelegate {
         var alert: UIAlertController
         var newTask: NSManagedObject
         
-        if (txtTask!.text != "" && txtDesc!.text != "") {
+        if (txtTask!.text != "") {
             newTask = NSEntityDescription.insertNewObjectForEntityForName("Task", inManagedObjectContext: context) as! NSManagedObject
             newTask.setValue(txtTask!.text, forKey: "taskName")
-            newTask.setValue(txtDesc!.text, forKey: "taskDesc")
+            //newTask.setValue(txtDesc!.text, forKey: "taskDesc")
             context.save(nil)
             
             self.dismissViewControllerAnimated(true, completion: {})
@@ -56,7 +55,7 @@ class AddTaskView: UIViewController, UITextFieldDelegate {
             
         } else {
             textFieldShouldEndEditing(txtTask!)
-            textFieldShouldEndEditing(txtDesc!)
+            //textFieldShouldEndEditing(txtDesc!)
         }
     }
 

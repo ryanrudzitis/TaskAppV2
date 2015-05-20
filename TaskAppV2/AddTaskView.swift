@@ -70,9 +70,15 @@ class AddTaskView: UIViewController, UITextFieldDelegate {
         self.view.endEditing(true)
         
         if (textField.text == "" && cancelButtonPressed == false) {
-            var alert: UIAlertController = UIAlertController(title: "Error", message: "Contents of textbox cannot be blank", preferredStyle: UIAlertControllerStyle.Alert)
+            let alert: UIAlertController = UIAlertController(title: "Error", message: "Contents of textbox cannot be blank", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+            //self.presentViewController(alert, animated: true, completion: nil)
+            
+            if self.presentedViewController == nil {
+                self.presentViewController(alert, animated: true, completion: nil)
+            } else {
+                println("already presenting")
+            }
             return false
         } else {
             return true
@@ -81,9 +87,9 @@ class AddTaskView: UIViewController, UITextFieldDelegate {
     
     func textFieldDidEndEditing(textField: UITextField) {
         if (textFieldShouldEndEditing(textField) == false) {
-            println("returned false")
+            //println("returned false")
         } else {
-            println("returned true")
+            //println("returned true")
         }
     }
     

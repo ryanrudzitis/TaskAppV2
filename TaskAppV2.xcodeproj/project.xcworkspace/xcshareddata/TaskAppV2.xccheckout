@@ -7,34 +7,34 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>F43FB8C7-6470-45A1-98B5-41E4D9AEB52C</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>TaskAppV2</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>F8E4BA8D279A74089415003C2C437BD916A90B30</key>
-		<string>https://github.com/ryanrudzitis/TaskApp.git</string>
+		<key>F00C29AA1605B7E6F06A798D1492BDF713872361</key>
+		<string>https://github.com/ryanrudzitis/TaskAppV2.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>TaskAppV2/TaskAppV2.xcodeproj/project.xcworkspace</string>
+	<string>TaskAppV2.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>F8E4BA8D279A74089415003C2C437BD916A90B30</key>
-		<string>../../..</string>
+		<key>F00C29AA1605B7E6F06A798D1492BDF713872361</key>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/ryanrudzitis/TaskApp.git</string>
+	<string>https://github.com/ryanrudzitis/TaskAppV2.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>F8E4BA8D279A74089415003C2C437BD916A90B30</string>
+	<string>F00C29AA1605B7E6F06A798D1492BDF713872361</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>F8E4BA8D279A74089415003C2C437BD916A90B30</string>
+			<string>F00C29AA1605B7E6F06A798D1492BDF713872361</string>
 			<key>IDESourceControlWCCName</key>
-			<string>Swift</string>
+			<string>TaskAppV2</string>
 		</dict>
 	</array>
 </dict>

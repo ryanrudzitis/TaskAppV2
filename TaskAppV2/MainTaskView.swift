@@ -9,17 +9,22 @@
 import UIKit
 import CoreData
 
-class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataSource {
+class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
     @IBOutlet var tblTasks: UITableView!
-    let longPress = UILongPressGestureRecognizer()
+
+    
+    @IBAction func addTask(sender: AnyObject) {
+        performSegueWithIdentifier("addTaskSegue", sender: self)
+    }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let longPress = UILongPressGestureRecognizer()
         /*Set color*/
-        tblTasks.backgroundColor = UIColor(red: 51/255, green: 153/255, blue: 255/255, alpha: 1.0)
-        tblTasks.tableFooterView = UIView(frame: CGRectZero)
+        //tblTasks.backgroundColor = UIColor(red: 51/255, green: 153/255, blue: 255/255, alpha: 1.0)
+        //tblTasks.tableFooterView = UIView(frame: CGRectZero)
         
         /*Add long press gesture*/
         longPress.addTarget(self, action: "longPressedView:")
@@ -31,22 +36,26 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        self.navigationController?.editing = false
+    }
+    
     func longPressedView(gestureRecognizer: UIGestureRecognizer){
         
         /*Get cell info from where user tapped*/
-        if (gestureRecognizer.state == UIGestureRecognizerState.Ended) {
+        if (gestureRecognizer.state == .Began) {
             var tapLocation: CGPoint = gestureRecognizer.locationInView(self.tableView)
             
-            var tappedIndexPath: NSIndexPath = self.tableView.indexPathForRowAtPoint(tapLocation)!
-            var tappedCell: UITableViewCell = self.tableView.cellForRowAtIndexPath(tappedIndexPath)!
-            
-            println("the cell name is \(tappedCell.textLabel!.text!)")
-        }
+            var tappedIndexPath: NSIndexPath? = self.tableView.indexPathForRowAtPoint(tapLocation)
+            if (tappedIndexPath != nil) {
+                var tappedCell: UITableViewCell? = self.tableView.cellForRowAtIndexPath(tappedIndexPath!)
+            }
         
-        /*Long press alert*/
-        let tapAlert = UIAlertController(title: "Long Pressed", message: "You just long pressed the long press view", preferredStyle: UIAlertControllerStyle.Alert)
-        tapAlert.addAction(UIAlertAction(title: "OK", style: .Destructive, handler: nil))
-        self.presentViewController(tapAlert, animated: true, completion: nil)
+            /*Long press alert*/
+            let tapAlert = UIAlertController(title: "Long Pressed", message: "You just long pressed the long press view", preferredStyle: UIAlertControllerStyle.Alert)
+            tapAlert.addAction(UIAlertAction(title: "OK", style: .Destructive, handler: nil))
+            self.presentViewController(tapAlert, animated: true, completion: nil)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -56,8 +65,7 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        var results = getCoreDataArray("Task")
-        
+        let results = getCoreDataArray("Task")
         return results.count
     }
     
@@ -99,6 +107,7 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
         /*Set the cancel action*/
         let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: {(alert: UIAlertAction!) -> Void in
             self.dismissViewControllerAnimated(true, completion: nil)
+            self.navigationController?.editing = false
             })
         
         /*Finally show the menu*/
@@ -121,9 +130,9 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
         cell!.textLabel?.text = results[indexPath.row].valueForKey("taskName") as? String
         cell!.detailTextLabel!.text = results[indexPath.row].valueForKey("taskDesc") as? String
         
-        cell?.backgroundColor = UIColor.clearColor()
-        cell?.textLabel?.textColor = UIColor.whiteColor()
-        cell?.detailTextLabel?.textColor = UIColor.whiteColor()
+        //cell?.backgroundColor = UIColor.clearColor()
+        //cell?.textLabel?.textColor = UIColor.whiteColor()
+        //cell?.detailTextLabel?.textColor = UIColor.whiteColor()
         
         return cell!
     }
@@ -140,7 +149,7 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
         /*What happens if user presses delete on cell*/
-        if (editingStyle == UITableViewCellEditingStyle.Delete) {
+        if (editingStyle == .Delete) {
             let appDel:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             let context:NSManagedObjectContext = appDel.managedObjectContext!
             var request = NSFetchRequest(entityName: "Task")
@@ -148,6 +157,7 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
             
             context.deleteObject(results[indexPath.row] as! NSManagedObject)
             context.save(nil)
+            self.navigationController?.editing = false
             
             tblTasks.reloadData()
         }
@@ -164,11 +174,20 @@ class MainTaskView: UITableViewController, UITableViewDelegate, UITableViewDataS
         }
     }
     
-    // IF IT IS IN EDIT MODE THEN GO BACK TO NORMAL WHEN PRESSING +
+    // IF IT IS IN EDIT MODE THEN GO BACK TO NORMAL WHEN PRESSING + IN A NICE WAY
     // Override to support conditional rearranging of the table view.
     override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return NO if you do not want the item to be re-orderable.
         return false
+    }
+    
+    func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
     }
 
 

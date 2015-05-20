@@ -423,6 +423,7 @@
 				E657170C1AFC5920009CE656 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E657170D1AFC5920009CE656 /* Build configuration list for PBXNativeTarget "TaskAppV2Tests" */ = {
 			isa = XCConfigurationList;
@@ -431,6 +432,7 @@
 				E657170F1AFC5920009CE656 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

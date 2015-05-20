@@ -37,12 +37,13 @@
                     <navigationItem key="navigationItem" title="Tasks" id="X5s-2o-Prc">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Ftx-R9-mNW">
                             <connections>
-                                <segue destination="lBI-fJ-Cau" kind="modal" id="SZr-JP-76a"/>
+                                <action selector="addTask:" destination="9el-II-gmT" id="NOh-q6-igg"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tblTasks" destination="BaO-bM-aHJ" id="1lN-Og-5SJ"/>
+                        <segue destination="lBI-fJ-Cau" kind="modal" identifier="addTaskSegue" id="80U-mE-Xrt"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fII-MP-uWR" userLabel="First Responder" sceneMemberID="firstResponder"/>
